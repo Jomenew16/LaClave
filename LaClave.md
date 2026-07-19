@@ -23,6 +23,7 @@ Extras previstos: curador de contenidos, buffer periódico de noticias de Bulgar
   - Nunca datos personales: ni nombres, ni teléfonos, ni mensajes brutos de WhatsApp. El registro de verificaciones guardará solo la afirmación (anonimizada), el veredicto y las fuentes.
   - Nunca claves ni tokens en el repo (el `.gitignore` de Python ayuda; revisión antes de cada push).
   - Las notas de credibilidad de medios se justifican siempre con criterios explícitos y señalamientos citables de terceros; no se mantiene una "lista negra" propia.
+  - La autoría de los commits usa el email «noreply» de GitHub (`20563551+Jomenew16@users.noreply.github.com`), nunca el correo personal. Recomendado además activar en GitHub: Settings → Emails → "Keep my email addresses private".
   - Pendiente: elegir licencia (propuesta: MIT para el código y CC BY 4.0 para la documentación).
 - El repo se creó con `.gitignore` de Python (adecuado: los futuros scripts auxiliares serán Python) y rama por defecto `master`.
 
