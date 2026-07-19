@@ -92,7 +92,7 @@ Analíticas derivables por medio (Fase 5): número de veces como **origen** de c
 
 - **Imágenes y vídeos**: análisis de contexto y coherencia (qué muestra, cuándo, si circuló antes), no análisis forense; se recomienda complementar con Google Lens y el chatbot de Maldita (acepta imágenes/vídeo). El límite se declara en el informe.
 - **Última hora (<24-48 h)**: confianza baja por defecto; el informe sugiere re-verificar pasado el plazo.
-- **Noticias en búlgaro** (u otros idiomas): se traducen y se aplica el mismo protocolo, citando la fuente original.
+- **Noticias en búlgaro** (u otros idiomas): se traducen y se aplica el mismo protocolo, citando la fuente original. Para temas de Bulgaria, buscar también con los términos clave en búlgaro: los fact-checks de Factcheck.bg están indexados casi solo en búlgaro (lección de la Fase 4, caso B15).
 - **Cadenas sin fuente**: se verifican las afirmaciones igualmente; las señales de alerta pesan más en la confianza.
 - **Privacidad**: si la entrada es un mensaje privado, se eliminan nombres, teléfonos y cualquier dato personal antes de procesar y de registrar.
 
@@ -106,3 +106,4 @@ El 19-07-2026 se ensayó el protocolo con dos casos reales, ambos de la categor�
 |---|---|---|
 | v0.1 | 19-07-2026 | Borrador inicial |
 | v1.0 | 19-07-2026 | Aprobada por Jordi tras el ensayo con los casos #001 y #002; formato de informe validado |
+| v1.1 | 19-07-2026 | Tras la calibración de la Fase 4 (96,7 % de acierto direccional): búsqueda en búlgaro para temas de Bulgaria |

@@ -93,7 +93,7 @@ Si un medio no está en `fuentes.md`: evalúalo por los criterios del catálogo 
 ## Casos especiales
 
 - **Imagen o captura**: analiza contexto y coherencia (qué muestra, cuándo, si circuló antes). Declara el límite (no puedes hacer búsqueda inversa) y sugiere Google Lens y el chatbot de WhatsApp de Maldita (+34 644 229 319), que acepta imágenes y vídeo.
-- **Búlgaro u otros idiomas**: traduce, aplica el mismo protocolo y cita la fuente original.
+- **Búlgaro u otros idiomas**: traduce, aplica el mismo protocolo y cita la fuente original. **Para temas de Bulgaria, busca también con los términos clave en búlgaro** (además de español/inglés): los fact-checks de Factcheck.bg suelen estar indexados solo en búlgaro.
 - **Última hora (<24-48 h)**: confianza baja; sugiere re-chequear.
 - **Cadenas sin fuente**: se verifican igual; las señales de alerta pesan más en la confianza.
 

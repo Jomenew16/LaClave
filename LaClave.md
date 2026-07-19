@@ -56,8 +56,8 @@ Extras previstos: curador de contenidos, buffer periódico de noticias de Bulgar
 - [x] **Fase 0 — Marco del proyecto** (1-2 sesiones). LaClave.md, repositorio GitHub (público) y commit inicial. _Completada el 19-07-2026 (push operativo mediante token de acceso limitado creado por Jordi)._
 - [x] **Fase 1 — Catálogo de fuentes e índice de credibilidad v1** (1-2 sesiones). `FUENTES.md` con ~50-70 medios y ~15 verificadores (ES/BG/EU/mundo): idioma, RSS, paywall, propiedad, línea editorial y credibilidad inicial 1-10 con criterios explícitos. Claude verifica técnicamente los feeds; Jordi revisa y ajusta las ponderaciones. Entregable: catálogo aprobado. _Completada el 19-07-2026: FUENTES.md v1.0 aprobado por Jordi._
 - [x] **Fase 2 — Metodología y plantilla del informe** (1 sesión). Protocolo paso a paso y plantilla fija del informe; ensayo con 2-3 casos reales. Entregable: `METODOLOGIA.md`. _Completada el 19-07-2026: v1.0 aprobada por Jordi tras el ensayo con los informes #001 y #002._
-- [ ] **Fase 3 — Skill y Proyecto "LaClave"** (1 sesión). Empaquetar metodología + catálogo como skill, instalación guiada en la cuenta de Jordi, creación del Proyecto, pruebas del flujo completo en PC y móvil. Entregable: verificador operativo. _En curso (19-07-2026): skill `laclave` construida (skill/laclave/), `app/instrucciones_proyecto.md`, guía `INSTALACION.md` y paquete `laclave.zip` entregados. Pendiente: que Jordi instale y pruebe en PC y móvil._
-- [ ] **Fase 4 — Calibración con banco de pruebas** (1-2 sesiones). 25-30 noticias ya dictaminadas por fact-checkers (falsas, engañosas y ciertas; ES/BG/EU). Criterio de éxito: ≥80 % de acierto direccional y ningún bulo flagrante dado por bueno. Entregable: informe de evaluación y ajustes.
+- [x] **Fase 3 — Skill y Proyecto "LaClave"** (1 sesión). Empaquetar metodología + catálogo como skill, instalación guiada en la cuenta de Jordi, creación del Proyecto, pruebas del flujo completo en PC y móvil. Entregable: verificador operativo. _Completada el 19-07-2026: skill y Proyecto instalados por Jordi y probados en ordenador y móvil con funcionamiento correcto._
+- [x] **Fase 4 — Calibración con banco de pruebas** (1-2 sesiones). 25-30 noticias ya dictaminadas por fact-checkers (falsas, engañosas y ciertas; ES/BG/EU). Criterio de éxito: ≥80 % de acierto direccional y ningún bulo flagrante dado por bueno. Entregable: informe de evaluación y ajustes. _Completada el 19-07-2026: 30 casos a ciegas → **96,7 % de acierto direccional, 0 bulos aprobados, 0 falsos positivos**. Ver `EVALUACION.md`. Skill ajustada a v1.1 (búsqueda en búlgaro)._
 - [ ] **Fase 5 — Registro, índice dinámico y analíticas por medio** (1-2 sesiones). Registro estructurado por verificación (`registro.csv` además del texto) y revisión trimestral del índice (Claude propone ajustes con el histórico; Jordi aprueba). Analíticas por medio: evolución temporal de la nota de fiabilidad, número de noticias falsas/engañosas/sesgadas en las que aparece cada medio y en qué papel (origen, amplificador o desmentidor), aciertos como fuente de contraste. Entregable: `REGISTRO.md` + `registro.csv` + informe o panel de analíticas.
 - [ ] **Fase 6a — Buffer de Bulgaria** (1 sesión). Tarea programada (semanal por defecto) que resume y evalúa en español las noticias más relevantes del país.
 - [ ] **Fase 6b — Curador de contenidos** (1 sesión). Dado un tema o una noticia, recopilar cobertura, ordenarla por credibilidad y sintetizar lo común entre fuentes fiables.
@@ -67,10 +67,9 @@ Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualizac
 
 ## Próximos pasos
 
-1. **Jordi instala LaClave** siguiendo `INSTALACION.md`: subir `laclave.zip` en claude.ai (Settings → Capabilities → Skills → Upload skill) y crear el Proyecto "LaClave 🔎" con `app/instrucciones_proyecto.md` + `fuentes.md` como conocimiento.
-2. **Probar en PC y móvil** (chat normal, proyecto, y compartir desde WhatsApp) y contar el resultado → cierra la Fase 3.
-3. Después: **Fase 4** (banco de 25-30 casos ya dictaminados para calibrar) — Claude lo preparará.
-4. Pendientes menores: elegir licencia (propuesta: MIT + CC BY 4.0); activar en GitHub "Keep my email addresses private".
+1. **Opcional, cuando quieras**: resubir `laclave.zip` (v1.1, con la mejora de búsqueda en búlgaro) en claude.ai → Settings → Capabilities → Skills (elimina la versión anterior y sube la nueva).
+2. **Elegir la siguiente fase**: 5 (registro + índice dinámico + analíticas por medio), 6a (buffer semanal de Bulgaria como tarea programada), 6b (curador de contenidos) o 6c (paquete para compartir). Todas están desbloqueadas: el núcleo del verificador está construido, probado y calibrado.
+3. Pendientes menores: elegir licencia (propuesta: MIT + CC BY 4.0); activar en GitHub "Keep my email addresses private".
 
 ## Registro de avances
 
@@ -81,6 +80,8 @@ Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualizac
 | 19-07-2026 | Token de acceso limitado creado por Jordi (guardado en local, ignorado por git). Historial reescrito para eliminar el email personal (incluido el commit inicial) y **push completo a `master`**: repo en línea al día. **FUENTES.md v1.0 aprobado → Fase 1 completada.** Decisión: analíticas por medio (→ Fase 5). Fase 2 arrancada: METODOLOGIA.md v0.1 entregado para revisión. |
 | 19-07-2026 | **Ensayo del protocolo con dos casos reales**: #001 The Objective / diversidad en el cine (Engañoso, 4/10, confianza media) y #002 Vozpópuli / "432 %" de recaudación (Engañoso, 3/10, confianza alta). Estrenados `informes/` y `registro/registro.csv`. |
 | 19-07-2026 | Formato de informe validado por Jordi → **METODOLOGIA v1.0, Fase 2 completada**. Aprobada la incorporación de The Objective (6) y Vozpópuli (6) → **FUENTES v1.1**. **Fase 3 en marcha**: skill `laclave` (SKILL.md + fuentes.md compacto), instrucciones del Proyecto, guía INSTALACION.md y paquete laclave.zip entregados; pendiente instalación y pruebas de Jordi en PC y móvil. |
+| 19-07-2026 | Jordi instala la skill y el Proyecto y confirma funcionamiento en PC y móvil → **Fase 3 completada**. |
+| 19-07-2026 | **Fase 4 completada**: banco de 30 casos dictaminados (12 ES, 8 BG/EU, 10 verdaderos de control) y evaluación a ciegas con la skill real. Resultado: **acierto direccional 96,7 % (29/30), 0 bulos aprobados, 0 falsos positivos**; único fallo en un caso búlgaro fronterizo de <1 semana (B15), corregido con la skill v1.1 (búsqueda en búlgaro). Bonus: el verificador detectó un error del propio banco (B25, 82 escaños). Ver EVALUACION.md. |
 
 ## Recursos clave
 

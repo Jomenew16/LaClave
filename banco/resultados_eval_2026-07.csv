@@ -1,0 +1,31 @@
+id;tipo_esperado;veredicto_laclave;nota;confianza;acierto_direccional;categoria_exacta;observaciones
+LC-B01;Falso;Falso;1.5;alta;sí;sí;Encontró el fact-check de Maldita y el origen (cuenta de TikTok)
+LC-B02;Falso;Falso;2;alta;sí;sí;Triple dictamen (Maldita, Newtral, Verificat) + fuentes sanitarias primarias
+LC-B03;Falso;Falso;2;alta;sí;sí;Identificó la red 'Expediente Royuela' como origen
+LC-B04;Falso;Falso;2;alta;sí;sí;Doble dictamen y precedentes del mismo bulo
+LC-B05;Falso;Engañoso;3.5;alta;sí;adyacente;Matizó con precisión: la declaración existió, el contenido es falso
+LC-B06;Falso;Falso;2;alta;sí;sí;Distinguió foto manipulada de trasfondo real (comida sí documentada)
+LC-B07;Falso;Falso;1;alta;sí;sí;Detectó el reciclaje del bulo (antes "nieto de Maduro")
+LC-B08;Engañoso;Engañoso;3.5;alta;sí;sí;Explicó el cambio normativo real (RD 253/2025) y el límite del bulo
+LC-B09;Engañoso;Engañoso;3;alta;sí;sí;Identificó normativa antigua (VAO) recirculando como nueva
+LC-B10;Engañoso;Engañoso;4;alta;sí;sí;Desglosó voto por voto (SMI no se vota; pensiones mixto)
+LC-B11;Engañoso;Falso;1.5;alta;sí;adyacente;Más duro que el banco, con base legal sólida (Ley de Montes)
+LC-B12;Engañoso;Falso;2;alta;sí;adyacente;Verificó la emisión completa (contexto de la sonrisa)
+LC-B13;Falso;Falso;2;alta;sí;sí;Encontró el fact-check búlgaro y el desmentido oficial del Tribunal
+LC-B14;Falso;Falso;2;alta;sí;sí;Citó el art. 125 TFUE (cláusula de no corresponsabilidad)
+LC-B15;Engañoso;Mayormente cierto;7.5;media;no;no;ÚNICO FALLO. No localizó el fact-check búlgaro (indexado solo en búlgaro); su análisis del matiz "firmó vs respaldó" fue no obstante correcto y la confianza media, bien calibrada
+LC-B16;Falso;Engañoso;3;alta;sí;adyacente;Reconoció el PDE real y desmontó el marco (narrativa Sputnik/RT vía EUvsDisinfo)
+LC-B17;Falso;Falso;2;alta;sí;sí;Localizó ambos incendios (Verona 2026, Berlín 2025)
+LC-B18;Engañoso;Engañoso;3;alta;sí;sí;Adoptó el doble dictamen de Full Fact
+LC-B19;Engañoso;Falso;2;alta;sí;adyacente;Geolocalización de Maldita (Bruselas, no Sevilla); marcó "sin evidencia" la atribución étnica
+LC-B20;Falso;Falso;1;alta;sí;sí;Rastreó la red de 49 canales de YouTube
+LC-B21;Verdadero;Verdadero;10;alta;sí;sí;Confirmado con Consejo UE + BCE
+LC-B22;Verdadero;Verdadero;9.5;alta;sí;sí;Confirmado con escrutinio oficial (RTP)
+LC-B23;Verdadero;Verdadero;10;alta;sí;sí;Confirmado con fuentes olímpicas oficiales
+LC-B24;Verdadero;Verdadero;10;alta;sí;sí;Descartó incluso un blog que lo contradecía
+LC-B25;Verdadero;Mayormente cierto;8.5;alta;sí;adyacente;DETECTÓ UN ERROR DEL PROPIO BANCO: la cámara pasó a 82 escaños en 2026 (no 81); calificación quirúrgica
+LC-B26;Verdadero;Verdadero;9.5;alta;sí;sí;Caso "suena a bulo pero es cierto" superado
+LC-B27;Verdadero;Verdadero;9.5;alta;sí;sí;Caso "suena a bulo" superado (fuente científica primaria)
+LC-B28;Verdadero;Mayormente cierto;8;alta;sí;adyacente;Matizó correctamente la datación (s. XII tradicional vs XV-XVI documentado)
+LC-B29;Verdadero;Verdadero;9.5;alta;sí;sí;Caso "suena a bulo" superado (fuente parlamentaria primaria)
+LC-B30;Verdadero;Verdadero;9.5;alta;sí;sí;Caso "suena a bulo" superado (fuente oficial del monumento)
