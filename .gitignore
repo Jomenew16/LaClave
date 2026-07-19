@@ -219,3 +219,6 @@ __marimo__/
 
 # LaClave — credenciales locales (nunca subir al repo)
 .laclave_pat.txt
+
+# Artefactos generados (no versionar)
+dist/

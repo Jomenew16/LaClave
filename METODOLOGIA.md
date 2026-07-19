@@ -1,6 +1,6 @@
 # METODOLOGIA.md — Protocolo de verificación y plantilla del informe
 
-**v0.1 (borrador, pendiente de revisión por Jordi)** · 19-07-2026 · Parte de [LaClave](LaClave.md) · Catálogo de fuentes: [FUENTES.md](FUENTES.md)
+**v1.0 (aprobada por Jordi el 19-07-2026, tras el ensayo con los casos #001 y #002)** · Parte de [LaClave](LaClave.md) · Catálogo de fuentes: [FUENTES.md](FUENTES.md)
 
 ## 0. Entrada
 
@@ -96,13 +96,13 @@ Analíticas derivables por medio (Fase 5): número de veces como **origen** de c
 - **Cadenas sin fuente**: se verifican las afirmaciones igualmente; las señales de alerta pesan más en la confianza.
 - **Privacidad**: si la entrada es un mensaje privado, se eliminan nombres, teléfonos y cualquier dato personal antes de procesar y de registrar.
 
-## 6. Ensayo (pendiente, cierra la Fase 2)
+## 6. Ensayo (realizado)
 
-Antes de aprobar la v1.0, ensayaremos el protocolo con 2-3 casos reales (idealmente: un bulo ya desmentido, una noticia verdadera y una media verdad). Jordi puede enviar el primer caso cuando quiera.
+El 19-07-2026 se ensayó el protocolo con dos casos reales, ambos de la categoría más frecuente (hechos reales con marco engañoso): informe #001 (The Objective, diversidad en el cine — Engañoso, 4/10, confianza media) e informe #002 (Vozpópuli, recaudación "432 %" — Engañoso, 3/10, confianza alta). Ver `informes/`. Jordi validó el formato del informe.
 
-## 7. Para revisar por Jordi
+## 7. Historial de revisiones
 
-- ¿Te encaja la plantilla del informe (formato, emojis, longitud)?
-- ¿De acuerdo con la regla anti-media-verdad (afirmación central falsa → nota ≤4)?
-- ¿Los campos del registro cubren las analíticas que imaginas (evolución de nota, recuentos por medio y papel)?
-- ¿Algún caso especial que eche en falta?
+| Versión | Fecha | Cambios |
+|---|---|---|
+| v0.1 | 19-07-2026 | Borrador inicial |
+| v1.0 | 19-07-2026 | Aprobada por Jordi tras el ensayo con los casos #001 y #002; formato de informe validado |

@@ -1,6 +1,6 @@
 # FUENTES.md — Catálogo de fuentes e índice de credibilidad
 
-**v1.0 (aprobado por Jordi el 19-07-2026)** · Parte de [LaClave](LaClave.md)
+**v1.1 (19-07-2026)** · Parte de [LaClave](LaClave.md)
 
 ## Cómo leer este catálogo
 
@@ -73,6 +73,8 @@ Herramientas transversales (sin nota; se usan como buscadores):
 | Antena 3 Noticias | Atresmedia · centro | [D] · abierto | 7 | Informativo líder de audiencia |
 | La Razón | Planeta · derecha | [D] · blando | 6.5 | Fuerte alineamiento editorial |
 | laSexta | Atresmedia · izquierda | [D] · abierto | 6.5 | Informativo con marcado enfoque editorial |
+| The Objective | Privada (Paula Quinteros) · derecha liberal | [D] · abierto | 6 | Información propia valiosa (victorias judiciales por información contrastada), pero titulares con marco editorial frecuente (caso #001); litiga contra verificadoras |
+| Vozpópuli | Privada · derecha económica | [D] · abierto | 6 | Periodismo económico propio, pero titulares informativos con adjetivos valorativos y cálculos sin metodología (caso #002) |
 | Libertad Digital | Privada · derecha | [D] · abierto | 5.5 | Opinión muy dominante sobre información |
 | OKDiario | Privada · derecha | [D] · abierto | 4.5 | Señalamientos reiterados de verificadores (Maldita/Newtral) |
 
@@ -136,3 +138,4 @@ Notas: **Svobodna Evropa** (RFE/RL Bulgaria) cerró el 31-03-2026 por los recort
 |---|---|---|
 | v0.1 | 19-07-2026 | Borrador inicial (~60 fuentes) |
 | v1.0 | 19-07-2026 | Aprobado por Jordi sin cambios. Próxima revisión: tras la calibración de la Fase 4; después, trimestral, apoyada en las analíticas por medio |
+| v1.1 | 19-07-2026 | Añadidos The Objective (6) y Vozpópuli (6), propuestos a raíz de los informes #001 y #002 y aprobados por Jordi |
