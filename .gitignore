@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# LaClave — credenciales locales (nunca subir al repo)
+.laclave_pat.txt
