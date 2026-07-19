@@ -1,6 +1,6 @@
 # FUENTES.md — Catálogo de fuentes e índice de credibilidad
 
-**v0.1 (borrador, pendiente de revisión por Jordi)** · 19-07-2026 · Parte de [LaClave](LaClave.md)
+**v1.0 (aprobado por Jordi el 19-07-2026)** · Parte de [LaClave](LaClave.md)
 
 ## Cómo leer este catálogo
 
@@ -128,10 +128,11 @@ Notas: **Svobodna Evropa** (RFE/RL Bulgaria) cerró el 31-03-2026 por los recort
 - Este catálogo es la **semilla (v0.x)**. Los ajustes de notas se harán con el histórico del registro de verificaciones (Fase 5) y siempre con aprobación de Jordi.
 - Próxima revisión de notas: tras la calibración de la Fase 4. Después, trimestral.
 - Los RSS marcados [D] se comprobarán en uso real durante las Fases 3-4 (desde este entorno varios dominios no son accesibles; no implica que estén caídos).
+- El registro estructurado (Fase 5) alimentará **analíticas por medio**: evolución temporal de la nota, número de noticias falsas/engañosas/sesgadas en las que aparece cada medio y en qué papel (origen, amplificador o desmentidor), y aciertos como fuente de contraste.
 
-## 8. Para revisar por Jordi (cierra la Fase 1)
+## 8. Historial de revisiones
 
-- ¿Ajustarías alguna nota? (indica fuente y nota propuesta; lo discutimos y se registra)
-- ¿Falta algún medio que uses o quieras vigilar? ¿Sobra alguno?
-- ¿De acuerdo con la regla de pluralidad y con "sin lista negra propia"?
-- ¿De acuerdo con las notas de los medios públicos (RTVE 8, BBC 9, BNT 6.5…), que reflejan el matiz "por medio, no por categoría"?
+| Versión | Fecha | Cambios |
+|---|---|---|
+| v0.1 | 19-07-2026 | Borrador inicial (~60 fuentes) |
+| v1.0 | 19-07-2026 | Aprobado por Jordi sin cambios. Próxima revisión: tras la calibración de la Fase 4; después, trimestral, apoyada en las analíticas por medio |

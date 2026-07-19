@@ -26,6 +26,8 @@ Extras previstos: curador de contenidos, buffer periódico de noticias de Bulgar
   - La autoría de los commits usa el email «noreply» de GitHub (`20563551+Jomenew16@users.noreply.github.com`), nunca el correo personal. Recomendado además activar en GitHub: Settings → Emails → "Keep my email addresses private".
   - Pendiente: elegir licencia (propuesta: MIT para el código y CC BY 4.0 para la documentación).
 - El repo se creó con `.gitignore` de Python (adecuado: los futuros scripts auxiliares serán Python) y rama por defecto `master`.
+- Push mediante **token de acceso limitado** (fine-grained: solo repo LaClave, permiso de contenidos) creado por Jordi; se guarda en `.laclave_pat.txt` local, ignorado por git, revocable en cualquier momento.
+- A propuesta de Jordi: el registro capturará **datos estructurados por medio** para generar analíticas — evolución de la nota de fiabilidad, recuento de noticias falsas/engañosas/sesgadas por medio y su papel (origen, amplificador, desmentidor). Se incorpora a la Fase 5 y condiciona el diseño del registro desde la Fase 2.
 
 ## Supuestos pendientes de confirmar
 
@@ -51,24 +53,23 @@ Extras previstos: curador de contenidos, buffer periódico de noticias de Bulgar
 
 ## Plan por fases
 
-- [x] **Fase 0 — Marco del proyecto** (1-2 sesiones). LaClave.md, repositorio GitHub (público) y commit inicial. _Completada el 19-07-2026, con un fleco: el push desde Claude quedará operativo al autorizar la app de Claude en el repo (ver "Próximos pasos"); mientras tanto, los archivos pueden subirse por la web._
-- [ ] **Fase 1 — Catálogo de fuentes e índice de credibilidad v1** (1-2 sesiones). `FUENTES.md` con ~50-70 medios y ~15 verificadores (ES/BG/EU/mundo): idioma, RSS, paywall, propiedad, línea editorial y credibilidad inicial 1-10 con criterios explícitos. Claude verifica técnicamente los feeds; Jordi revisa y ajusta las ponderaciones. Entregable: catálogo aprobado. _En curso (19-07-2026): FUENTES.md v0.1 redactado y entregado; pendiente de la revisión de Jordi._
-- [ ] **Fase 2 — Metodología y plantilla del informe** (1 sesión). Protocolo paso a paso y plantilla fija del informe; ensayo con 2-3 casos reales. Entregable: `METODOLOGIA.md`.
+- [x] **Fase 0 — Marco del proyecto** (1-2 sesiones). LaClave.md, repositorio GitHub (público) y commit inicial. _Completada el 19-07-2026 (push operativo mediante token de acceso limitado creado por Jordi)._
+- [x] **Fase 1 — Catálogo de fuentes e índice de credibilidad v1** (1-2 sesiones). `FUENTES.md` con ~50-70 medios y ~15 verificadores (ES/BG/EU/mundo): idioma, RSS, paywall, propiedad, línea editorial y credibilidad inicial 1-10 con criterios explícitos. Claude verifica técnicamente los feeds; Jordi revisa y ajusta las ponderaciones. Entregable: catálogo aprobado. _Completada el 19-07-2026: FUENTES.md v1.0 aprobado por Jordi._
+- [ ] **Fase 2 — Metodología y plantilla del informe** (1 sesión). Protocolo paso a paso y plantilla fija del informe; ensayo con 2-3 casos reales. Entregable: `METODOLOGIA.md`. _En curso (19-07-2026): METODOLOGIA.md v0.1 redactado y entregado; pendiente de revisión y del ensayo con casos reales._
 - [ ] **Fase 3 — Skill y Proyecto "LaClave"** (1 sesión). Empaquetar metodología + catálogo como skill, instalación guiada en la cuenta de Jordi, creación del Proyecto, pruebas del flujo completo en PC y móvil. Entregable: verificador operativo.
 - [ ] **Fase 4 — Calibración con banco de pruebas** (1-2 sesiones). 25-30 noticias ya dictaminadas por fact-checkers (falsas, engañosas y ciertas; ES/BG/EU). Criterio de éxito: ≥80 % de acierto direccional y ningún bulo flagrante dado por bueno. Entregable: informe de evaluación y ajustes.
-- [ ] **Fase 5 — Registro e índice dinámico** (1 sesión). Plantilla de registro por verificación y procedimiento de revisión trimestral del índice (Claude propone ajustes con el histórico; Jordi aprueba). Entregable: `REGISTRO.md` + procedimiento.
+- [ ] **Fase 5 — Registro, índice dinámico y analíticas por medio** (1-2 sesiones). Registro estructurado por verificación (`registro.csv` además del texto) y revisión trimestral del índice (Claude propone ajustes con el histórico; Jordi aprueba). Analíticas por medio: evolución temporal de la nota de fiabilidad, número de noticias falsas/engañosas/sesgadas en las que aparece cada medio y en qué papel (origen, amplificador o desmentidor), aciertos como fuente de contraste. Entregable: `REGISTRO.md` + `registro.csv` + informe o panel de analíticas.
 - [ ] **Fase 6a — Buffer de Bulgaria** (1 sesión). Tarea programada (semanal por defecto) que resume y evalúa en español las noticias más relevantes del país.
 - [ ] **Fase 6b — Curador de contenidos** (1 sesión). Dado un tema o una noticia, recopilar cobertura, ordenarla por credibilidad y sintetizar lo común entre fuentes fiables.
-- [ ] **Fase 6c — Compartir** (1 sesión). ZIP de la skill + guía de instalación; decidir si el repositorio pasa a público.
+- [ ] **Fase 6c — Compartir** (1 sesión). ZIP de la skill + guía de instalación publicados en el repo (ya público).
 
 Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualización de este documento.
 
-## Próximos pasos (arranque de la siguiente sesión)
+## Próximos pasos
 
-1. **Jordi** (1 minuto; desbloquea el push de Claude): en https://github.com/settings/installations → app **Claude** → Configure → "Repository access" → añadir `LaClave` → Save. Si al iniciar una tarea de Cowork la app ofrece añadir un repositorio de GitHub como contexto, añadir también `LaClave`.
-2. **Jordi** (opcional, para ver el plan en GitHub hoy mismo): en https://github.com/Jomenew16/LaClave → "Add file" → "Upload files" → arrastrar `LaClave.md`, `README.md` y `FUENTES.md` desde `C:\Users\jorme\ClaudeLaClave` → "Commit changes".
-3. **Claude** (en cuanto haya acceso): reconciliar historiales (la rama remota es `master`; la local, `main`) y hacer push; desde ahí, push directo al final de cada sesión.
-4. **Fase 1 en curso**: Jordi revisa `FUENTES.md` (notas, inclusiones/exclusiones, regla de "sin lista negra propia"); con sus ajustes se cierra el catálogo v1 y pasamos a la Fase 2 (metodología y plantilla del informe).
+1. **Fase 2 en curso**: Jordi revisa `METODOLOGIA.md` v0.1 (protocolo, plantilla del informe, escala y categorías, campos del registro pensados para las analíticas) y proponemos juntos el ensayo con 2-3 casos reales.
+2. Con la metodología aprobada: **Fase 3** — empaquetar la skill y el Proyecto "LaClave" y probar el flujo completo en PC y móvil.
+3. Pendientes menores: elegir licencia (propuesta: MIT + CC BY 4.0); activar en GitHub "Keep my email addresses private".
 
 ## Registro de avances
 
@@ -76,6 +77,7 @@ Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualizac
 |---|---|
 | 18-07-2026 | Estudio de viabilidad completo (fact-checkers ES/BG/EU, medios y RSS, ratings de credibilidad, plataformas y costes). Decisiones: app Claude, 0 € adicionales, uso ocasional. Fase 0: LaClave.md redactado, copiado a la carpeta local y con commit local; el repo de GitHub y el push quedan para la sesión 2 (el acceso por sesión no pudo ampliarse en caliente). |
 | 19-07-2026 | Repo **público** creado por Jordi (descripción propia, `.gitignore` Python, rama `master`); verificado desde fuera: correcto. Decisión de visibilidad y salvaguardas de privacidad registradas. Fase 0 completada (push pendiente de autorizar la app). Fase 1 arrancada: FUENTES.md v0.1 (catálogo de ~60 fuentes e índice inicial) entregado para revisión. |
+| 19-07-2026 | Token de acceso limitado creado por Jordi (guardado en local, ignorado por git). Historial reescrito para eliminar el email personal (incluido el commit inicial) y **push completo a `master`**: repo en línea al día. **FUENTES.md v1.0 aprobado → Fase 1 completada.** Decisión: analíticas por medio (→ Fase 5). Fase 2 arrancada: METODOLOGIA.md v0.1 entregado para revisión. |
 
 ## Recursos clave
 
