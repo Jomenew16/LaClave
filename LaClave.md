@@ -58,7 +58,7 @@ Extras previstos: curador de contenidos, buffer periódico de noticias de Bulgar
 - [x] **Fase 2 — Metodología y plantilla del informe** (1 sesión). Protocolo paso a paso y plantilla fija del informe; ensayo con 2-3 casos reales. Entregable: `METODOLOGIA.md`. _Completada el 19-07-2026: v1.0 aprobada por Jordi tras el ensayo con los informes #001 y #002._
 - [x] **Fase 3 — Skill y Proyecto "LaClave"** (1 sesión). Empaquetar metodología + catálogo como skill, instalación guiada en la cuenta de Jordi, creación del Proyecto, pruebas del flujo completo en PC y móvil. Entregable: verificador operativo. _Completada el 19-07-2026: skill y Proyecto instalados por Jordi y probados en ordenador y móvil con funcionamiento correcto._
 - [x] **Fase 4 — Calibración con banco de pruebas** (1-2 sesiones). 25-30 noticias ya dictaminadas por fact-checkers (falsas, engañosas y ciertas; ES/BG/EU). Criterio de éxito: ≥80 % de acierto direccional y ningún bulo flagrante dado por bueno. Entregable: informe de evaluación y ajustes. _Completada el 19-07-2026: 30 casos a ciegas → **96,7 % de acierto direccional, 0 bulos aprobados, 0 falsos positivos**. Ver `EVALUACION.md`. Skill ajustada a v1.1 (búsqueda en búlgaro)._
-- [ ] **Fase 5 — Registro, índice dinámico y analíticas por medio** (1-2 sesiones). Registro estructurado por verificación (`registro.csv` además del texto) y revisión trimestral del índice (Claude propone ajustes con el histórico; Jordi aprueba). Analíticas por medio: evolución temporal de la nota de fiabilidad, número de noticias falsas/engañosas/sesgadas en las que aparece cada medio y en qué papel (origen, amplificador o desmentidor), aciertos como fuente de contraste. Entregable: `REGISTRO.md` + `registro.csv` + informe o panel de analíticas.
+- [x] **Fase 5 — Registro, índice dinámico y analíticas por medio** (1-2 sesiones). Registro estructurado por verificación (`registro.csv` además del texto) y revisión trimestral del índice (Claude propone ajustes con el histórico; Jordi aprueba). Analíticas por medio: evolución temporal de la nota de fiabilidad, número de noticias falsas/engañosas/sesgadas en las que aparece cada medio y en qué papel (origen, amplificador o desmentidor), aciertos como fuente de contraste. Entregable: `REGISTRO.md` + `registro.csv` + informe o panel de analíticas. _Completada el 19-07-2026: REGISTRO.md (flujo de archivo + revisión trimestral), registro consolidado con 32 verificaciones, histórico sembrado con los 57 medios del catálogo, `scripts/analiticas.py` + ANALITICAS.md, y panel visual persistente ("Panel LaClave"). Primera revisión del índice: octubre de 2026._
 - [ ] **Fase 6a — Buffer de Bulgaria** (1 sesión). Tarea programada (semanal por defecto) que resume y evalúa en español las noticias más relevantes del país.
 - [ ] **Fase 6b — Curador de contenidos** (1 sesión). Dado un tema o una noticia, recopilar cobertura, ordenarla por credibilidad y sintetizar lo común entre fuentes fiables.
 - [ ] **Fase 6c — Compartir** (1 sesión). ZIP de la skill + guía de instalación publicados en el repo (ya público).
@@ -67,9 +67,9 @@ Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualizac
 
 ## Próximos pasos
 
-1. **Opcional, cuando quieras**: resubir `laclave.zip` (v1.1, con la mejora de búsqueda en búlgaro) en claude.ai → Settings → Capabilities → Skills (elimina la versión anterior y sube la nueva).
-2. **Elegir la siguiente fase**: 5 (registro + índice dinámico + analíticas por medio), 6a (buffer semanal de Bulgaria como tarea programada), 6b (curador de contenidos) o 6c (paquete para compartir). Todas están desbloqueadas: el núcleo del verificador está construido, probado y calibrado.
-3. Pendientes menores: elegir licencia (propuesta: MIT + CC BY 4.0); activar en GitHub "Keep my email addresses private".
+1. **Uso cotidiano**: verificar desde la app y, de vez en cuando, pegar los informes o las líneas `📋 Registro` en una sesión de Cowork con «archiva esto» — Claude actualiza registro, analíticas y panel (ver REGISTRO.md).
+2. **Elegir la siguiente fase**: 6a (buffer semanal de Bulgaria como tarea programada), 6b (curador de contenidos) o 6c (paquete para compartir).
+3. Pendientes menores: resubir `laclave.zip` v1.1 cuando venga bien; elegir licencia (propuesta: MIT + CC BY 4.0); activar en GitHub "Keep my email addresses private". Primera revisión del índice: octubre de 2026.
 
 ## Registro de avances
 
@@ -82,6 +82,7 @@ Estimación total: 6-9 sesiones. Cada fase termina con commit, push y actualizac
 | 19-07-2026 | Formato de informe validado por Jordi → **METODOLOGIA v1.0, Fase 2 completada**. Aprobada la incorporación de The Objective (6) y Vozpópuli (6) → **FUENTES v1.1**. **Fase 3 en marcha**: skill `laclave` (SKILL.md + fuentes.md compacto), instrucciones del Proyecto, guía INSTALACION.md y paquete laclave.zip entregados; pendiente instalación y pruebas de Jordi en PC y móvil. |
 | 19-07-2026 | Jordi instala la skill y el Proyecto y confirma funcionamiento en PC y móvil → **Fase 3 completada**. |
 | 19-07-2026 | **Fase 4 completada**: banco de 30 casos dictaminados (12 ES, 8 BG/EU, 10 verdaderos de control) y evaluación a ciegas con la skill real. Resultado: **acierto direccional 96,7 % (29/30), 0 bulos aprobados, 0 falsos positivos**; único fallo en un caso búlgaro fronterizo de <1 semana (B15), corregido con la skill v1.1 (búsqueda en búlgaro). Bonus: el verificador detectó un error del propio banco (B25, 82 escaños). Ver EVALUACION.md. |
+| 19-07-2026 | **Fase 5 completada**: REGISTRO.md con el flujo de archivo (app → «archiva esto» → Cowork) y la revisión trimestral con aprobación de Jordi; `registro.csv` consolidado (32 verificaciones con columna de lote); `notas_historico.csv` sembrado con los 57 medios; `scripts/analiticas.py` y primera ANALITICAS.md; **Panel LaClave** persistido como artefacto (paleta validada en claro y oscuro). |
 
 ## Recursos clave
 

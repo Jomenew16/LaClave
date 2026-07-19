@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel LaClave — Verificador personal de noticias</title>
+<style>
+  .viz-root {
+    color-scheme: light;
+    --surface-1: #fcfcfb; --page: #f9f9f7;
+    --ink-1: #0b0b0b; --ink-2: #52514e; --ink-3: #898781;
+    --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
+    --v-verdadero: #2a78d6; --v-mcierto: #1baf7a; --v-enganoso: #4a3aa7; --v-falso: #e34948;
+    --serie-1: #2a78d6; --delta-good: #006300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1: #1a1a19; --page: #0d0d0d;
+      --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
+      --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+      --v-verdadero: #3987e5; --v-mcierto: #199e70; --v-enganoso: #9085e9; --v-falso: #e66767;
+      --serie-1: #3987e5; --delta-good: #0ca30c;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1: #1a1a19; --page: #0d0d0d;
+    --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
+    --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+    --v-verdadero: #3987e5; --v-mcierto: #199e70; --v-enganoso: #9085e9; --v-falso: #e66767;
+    --serie-1: #3987e5; --delta-good: #0ca30c;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body.viz-root {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page); color: var(--ink-1); padding: 20px 16px 32px;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header h1 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
+  header p  { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--ring); border-radius: 10px;
+    padding: 16px 18px; margin-top: 14px;
+  }
+  h2 { font-size: 13px; font-weight: 650; color: var(--ink-1); margin-bottom: 2px; }
+  .sub { font-size: 11.5px; color: var(--ink-3); margin-bottom: 12px; }
+  /* KPI */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 14px; }
+  .kpi { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 10px; padding: 13px 15px; }
+  .kpi .v { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; }
+  .kpi .l { font-size: 11.5px; color: var(--ink-2); margin-top: 2px; line-height: 1.35; }
+  .kpi .d { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+  .good { color: var(--delta-good); font-weight: 600; }
+  /* Barras */
+  .row { display: grid; grid-template-columns: 150px 1fr 58px; align-items: center; gap: 10px; padding: 4px 0; }
+  .row .name { font-size: 12.5px; color: var(--ink-1); text-align: right; }
+  .row .val  { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .track { position: relative; height: 20px; }
+  .track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--baseline); }
+  .bar {
+    position: absolute; left: 2px; top: 1px; bottom: 1px;
+    border-radius: 0 4px 4px 0; min-width: 4px; cursor: default;
+    transition: filter .12s ease;
+  }
+  .bar:hover { filter: brightness(1.12); }
+  .chip { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: baseline; }
+  /* Tablas */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th { text-align: left; color: var(--ink-3); font-weight: 550; font-size: 11px; padding: 4px 8px 6px 0; border-bottom: 1px solid var(--grid); }
+  td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--grid); color: var(--ink-1); }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  tr:last-child td { border-bottom: none; }
+  .note { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
+  footer { font-size: 11px; color: var(--ink-3); margin-top: 18px; line-height: 1.6; }
+  a { color: var(--serie-1); text-decoration: none; }
+  /* Tooltip */
+  #tip {
+    position: fixed; pointer-events: none; z-index: 10; display: none;
+    background: var(--surface-1); color: var(--ink-1); border: 1px solid var(--ring);
+    border-radius: 7px; padding: 7px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    max-width: 240px; line-height: 1.45;
+  }
+  #tip b { font-weight: 650; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 118px 1fr 52px; } }
+</style>
+</head>
+<body class="viz-root">
+<div class="wrap">
+  <header>
+    <h1>🔎 Panel LaClave</h1>
+    <p>Verificador personal de noticias · actualizado el 19-07-2026 · 32 verificaciones registradas (2 de uso real + 30 de calibración)</p>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v">32</div><div class="l">verificaciones registradas</div><div class="d">2 reales · 30 de calibración</div></div>
+    <div class="kpi"><div class="v">21</div><div class="l">bulos o engaños detectados</div><div class="d">66 % de lo verificado · nota media 2,4/10</div></div>
+    <div class="kpi"><div class="v good">96,7 %</div><div class="l">acierto direccional en la calibración</div><div class="d">29/30 · 0 bulos aprobados · 0 falsos positivos</div></div>
+    <div class="kpi"><div class="v">57</div><div class="l">medios en el índice de credibilidad</div><div class="d">semilla v1.1 · próxima revisión: oct 2026</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Veredictos emitidos</h2>
+    <div class="sub">32 verificaciones · la escala va de Verdadero a Falso</div>
+    <div class="row"><div class="name"><span class="chip" style="background:var(--v-verdadero)"></span>Verdadero</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-verdadero)" data-tip="<b>Verdadero — 8 casos (25 %)</b><br>Nota media 9,7/10. Incluye los 5 controles «suena a bulo pero es cierto»."></div></div><div class="val">8 · 25 %</div></div>
+    <div class="row"><div class="name"><span class="chip" style="background:var(--v-mcierto)"></span>Mayormente cierto</div><div class="track"><div class="bar" style="width:23%;background:var(--v-mcierto)" data-tip="<b>Mayormente cierto — 3 casos (9 %)</b><br>Ciertos con un matiz o detalle erróneo (p. ej. los 82 escaños de CyL)."></div></div><div class="val">3 · 9 %</div></div>
+    <div class="row"><div class="name"><span class="chip" style="background:var(--v-enganoso)"></span>Engañoso</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-enganoso)" data-tip="<b>Engañoso — 8 casos (25 %)</b><br>Hechos reales con marco que induce a error: la categoría de las medias verdades."></div></div><div class="val">8 · 25 %</div></div>
+    <div class="row"><div class="name"><span class="chip" style="background:var(--v-falso)"></span>Falso</div><div class="track"><div class="bar" style="width:100%;background:var(--v-falso)" data-tip="<b>Falso — 13 casos (41 %)</b><br>Fabricaciones: vídeos de IA, fotos manipuladas, hechos inventados."></div></div><div class="val">13 · 41 %</div></div>
+    <div class="note">El color acompaña a la etiqueta, nunca la sustituye. Contenido problemático total (Falso + Engañoso): 21 casos, nota media 2,4/10 · contenido verídico: 11 casos, nota media 9,2/10.</div>
+  </div>
+
+  <div class="card">
+    <h2>Quién desmintió los casos problemáticos</h2>
+    <div class="sub">Fuentes que desmontaron los 21 casos falsos o engañosos (un caso puede tener varias)</div>
+    <div class="row"><div class="name">Maldita.es</div><div class="track"><div class="bar" style="width:100%;background:var(--serie-1)" data-tip="<b>Maldita.es — 14 desmentidos</b><br>Nota en el catálogo: 9. El desmentidor más frecuente."></div></div><div class="val">14</div></div>
+    <div class="row"><div class="name">Newtral</div><div class="track"><div class="bar" style="width:86%;background:var(--serie-1)" data-tip="<b>Newtral — 12 desmentidos</b><br>Nota en el catálogo: 8,5."></div></div><div class="val">12</div></div>
+    <div class="row"><div class="name">Factcheck.bg</div><div class="track"><div class="bar" style="width:14%;background:var(--serie-1)" data-tip="<b>Factcheck.bg — 2 desmentidos</b><br>El verificador búlgaro (EFCSN). Nota: 8,5."></div></div><div class="val">2</div></div>
+    <div class="row"><div class="name">Verificat</div><div class="track"><div class="bar" style="width:14%;background:var(--serie-1)" data-tip="<b>Verificat — 2 desmentidos</b><br>Nota en el catálogo: 8,5."></div></div><div class="val">2</div></div>
+    <div class="row"><div class="name">Full Fact</div><div class="track"><div class="bar" style="width:7%;background:var(--serie-1)" data-tip="<b>Full Fact — 1 desmentido</b><br>Verificador británico. Nota: 9."></div></div><div class="val">1</div></div>
+    <div class="row"><div class="name">EUvsDisinfo</div><div class="track"><div class="bar" style="width:7%;background:var(--serie-1)" data-tip="<b>EUvsDisinfo — 1 desmentido</b><br>Base de la UE sobre desinformación pro-Kremlin."></div></div><div class="val">1</div></div>
+    <div class="note">También con 1: Info Veritas, elDiario.es, Euronews y la AEAT (fuente primaria). La regla «fact-check first» encontró dictamen profesional en 19 de los 20 casos problemáticos de la calibración.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>De dónde salió lo falso o engañoso</h2>
+      <div class="sub">Origen de los 21 casos problemáticos</div>
+      <table>
+        <tr><th>Origen</th><th style="text-align:right">Casos</th></tr>
+        <tr><td>Cadenas y cuentas anónimas en redes</td><td class="n">11</td></tr>
+        <tr><td>Declaraciones políticas y oficiales</td><td class="n">4</td></tr>
+        <tr><td>Redes de desinformación organizadas</td><td class="n">4</td></tr>
+        <tr><td>Medios de comunicación</td><td class="n">2</td></tr>
+      </table>
+      <div class="note">Los dos casos con medio identificado: The Objective (informe #001) y Vozpópuli (informe #002), ambos incorporados al catálogo con nota 6.</div>
+    </div>
+    <div class="card">
+      <h2>Índice de credibilidad</h2>
+      <div class="sub">57 medios · semilla del 19-07-2026 (v1.1)</div>
+      <table>
+        <tr><th>Grupo</th><th style="text-align:right">Medios</th></tr>
+        <tr><td>Verificadores</td><td class="n">11</td></tr>
+        <tr><td>Agencias</td><td class="n">7</td></tr>
+        <tr><td>España</td><td class="n">16</td></tr>
+        <tr><td>Europa y mundo</td><td class="n">12</td></tr>
+        <tr><td>Bulgaria</td><td class="n">14</td></tr>
+      </table>
+      <div class="note">La evolución de la nota de cada medio se dibujará a partir de la primera revisión trimestral (octubre de 2026), usando <code>registro/notas_historico.csv</code>.</div>
+    </div>
+  </div>
+
+  <footer>
+    Datos: <code>registro/registro.csv</code> · generado con <code>scripts/analiticas.py</code> · detalle en <code>ANALITICAS.md</code> ·
+    repositorio: <a href="https://github.com/Jomenew16/LaClave">github.com/Jomenew16/LaClave</a>. Este panel se actualiza cada vez que se archivan verificaciones nuevas.
+  </footer>
+</div>
+<div id="tip"></div>
+<script>
+  (function () {
+    var tip = document.getElementById("tip");
+    document.querySelectorAll(".bar[data-tip]").forEach(function (b) {
+      b.addEventListener("mousemove", function (e) {
+        tip.innerHTML = b.getAttribute("data-tip");
+        tip.style.display = "block";
+        var x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 10);
+        var y = Math.min(e.clientY + 14, window.innerHeight - tip.offsetHeight - 10);
+        tip.style.left = x + "px"; tip.style.top = y + "px";
+      });
+      b.addEventListener("mouseleave", function () { tip.style.display = "none"; });
+    });
+  })();
+</script>
+</body>
+</html>
