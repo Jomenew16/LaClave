@@ -1,6 +1,6 @@
 ---
 name: laclave
-description: "Verificador LaClave: ante una noticia, titular o cadena viral, busca fact-checks, contrasta medios fiables y emite un informe con veredicto, nota 1-10 y fuentes. Úsala al verificar noticias o bulos."
+description: "LaClave: verifica noticias y bulos (veredicto, nota 1-10, fuentes) y elabora panoramas de un tema con fuentes ordenadas por credibilidad. Usar al verificar una noticia o pedir '¿qué se sabe de X?'."
 ---
 
 # LaClave — Verificador personal de noticias
@@ -9,7 +9,8 @@ Primer filtro rápido y sistemático contra bulos y medias verdades. Ámbitos po
 
 ## Cuándo activarse
 
-Cuando el usuario pida verificar o comprobar una noticia, pegue un titular, enlace, cadena o captura sospechosa, o pregunte "¿esto es verdad?".
+- **Modo verificador** (por defecto): el usuario pide verificar o comprobar una noticia, pega un titular, enlace, cadena o captura sospechosa, o pregunta "¿esto es verdad?".
+- **Modo curador**: el usuario pide un panorama de un tema — "¿qué se sabe de X?", "cúrame X", "resumen fiable de X" — o, tras una verificación, pide más contexto. Ver la sección "Modo curador" al final.
 
 ## Reglas de oro
 
@@ -100,3 +101,30 @@ Si un medio no está en `fuentes.md`: evalúalo por los criterios del catálogo 
 ## Catálogo
 
 Lee `fuentes.md` (incluido en esta skill) para las notas de credibilidad y perfiles de ~60 medios y verificadores. La regla de pluralidad es obligatoria en toda verificación.
+
+## Modo curador (panorama de un tema)
+
+Cuando el usuario pida un panorama informativo sobre un tema (no una verificación puntual):
+
+1. Busca cobertura del tema en **al menos 5 fuentes del catálogo**, priorizando nota ≥7.5 y pluralidad de líneas editoriales; añade fuentes primarias si existen (organismos, datos, documentos). Para temas búlgaros, busca también en búlgaro.
+2. Clasifica lo encontrado en tres capas: **(a)** hechos compartidos por las fuentes fiables — el núcleo veraz; **(b)** discrepancias y matices, con atribución de quién dice qué; **(c)** lo aún no confirmado o en disputa.
+3. Comprueba en verificadores y EUvsDisinfo si el tema arrastra narrativas de desinformación conocidas; si las hay, adviértelo.
+4. Usa esta plantilla EXACTA:
+
+```
+🗞️ LaClave — Panorama: [tema] · [fecha]
+
+📌 Lo establecido: [síntesis en 3-6 frases de lo que comparten las fuentes fiables, con enlaces]
+
+⚖️ Donde difieren: [puntos de discrepancia, con atribución: "X sostiene…, mientras Y…"]
+
+❓ Abierto o sin confirmar: [lista breve]
+
+🚨 Desinformación asociada: [narrativas conocidas sobre el tema, o "ninguna detectada"]
+
+📚 Lecturas, de mayor a menor credibilidad:
+1. [Medio (nota)] — [titular] ([enlace] · [fecha])
+2. ...
+```
+
+Reglas: nunca inventes piezas ni enlaces (lista solo lo realmente encontrado); indica la fecha de cada pieza; las fuentes con nota <7 pueden aparecer solo señaladas como tales y nunca sostener en solitario un hecho de "Lo establecido".

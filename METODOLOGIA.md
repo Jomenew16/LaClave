@@ -100,10 +100,15 @@ Analíticas derivables por medio (Fase 5): número de veces como **origen** de c
 
 El 19-07-2026 se ensayó el protocolo con dos casos reales, ambos de la categoría más frecuente (hechos reales con marco engañoso): informe #001 (The Objective, diversidad en el cine — Engañoso, 4/10, confianza media) e informe #002 (Vozpópuli, recaudación "432 %" — Engañoso, 3/10, confianza alta). Ver `informes/`. Jordi validó el formato del informe.
 
-## 7. Historial de revisiones
+## 7. Modo curador (panorama de un tema)
+
+Además de verificar noticias puntuales, LaClave puede **curar** un tema a petición del usuario ("¿qué se sabe de X?"). Protocolo: cobertura en ≥5 fuentes del catálogo (nota ≥7.5, pluralidad de líneas, fuentes primarias si existen; en búlgaro para temas de Bulgaria) → tres capas: **lo establecido** (hechos compartidos por las fuentes fiables), **donde difieren** (discrepancias con atribución) y **abierto o sin confirmar** → aviso de narrativas de desinformación asociadas (verificadores/EUvsDisinfo) → **lecturas ordenadas de mayor a menor credibilidad**, cada una con medio, nota, titular, enlace y fecha. Las fuentes con nota <7 nunca sostienen en solitario un hecho de "lo establecido". La plantilla exacta vive en la skill (`skill/laclave/SKILL.md`).
+
+## 8. Historial de revisiones
 
 | Versión | Fecha | Cambios |
 |---|---|---|
 | v0.1 | 19-07-2026 | Borrador inicial |
 | v1.0 | 19-07-2026 | Aprobada por Jordi tras el ensayo con los casos #001 y #002; formato de informe validado |
 | v1.1 | 19-07-2026 | Tras la calibración de la Fase 4 (96,7 % de acierto direccional): búsqueda en búlgaro para temas de Bulgaria |
+| v1.2 | 19-07-2026 | Fase 6b: modo curador (panorama de un tema en tres capas + lecturas ordenadas por credibilidad) |
