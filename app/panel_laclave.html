@@ -11,7 +11,7 @@
     --ink-1: #0b0b0b; --ink-2: #52514e; --ink-3: #898781;
     --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
     --v-verdadero: #2a78d6; --v-mcierto: #1baf7a; --v-enganoso: #4a3aa7; --v-falso: #e34948;
-    --serie-1: #2a78d6; --delta-good: #006300;
+    --serie-1: #2a78d6; --delta-good: #006300; --delta-bad: #d03b3b; --wash: rgba(42,120,214,0.08);
   }
   @media (prefers-color-scheme: dark) {
     :root:where(:not([data-theme="light"])) .viz-root {
@@ -20,7 +20,7 @@
       --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
       --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
       --v-verdadero: #3987e5; --v-mcierto: #199e70; --v-enganoso: #9085e9; --v-falso: #e66767;
-      --serie-1: #3987e5; --delta-good: #0ca30c;
+      --serie-1: #3987e5; --delta-good: #0ca30c; --delta-bad: #e66767; --wash: rgba(57,135,229,0.14);
     }
   }
   :root[data-theme="dark"] .viz-root {
@@ -29,145 +29,232 @@
     --ink-1: #ffffff; --ink-2: #c3c2b7; --ink-3: #898781;
     --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
     --v-verdadero: #3987e5; --v-mcierto: #199e70; --v-enganoso: #9085e9; --v-falso: #e66767;
-    --serie-1: #3987e5; --delta-good: #0ca30c;
+    --serie-1: #3987e5; --delta-good: #0ca30c; --delta-bad: #e66767; --wash: rgba(57,135,229,0.14);
   }
   * { box-sizing: border-box; margin: 0; }
-  body.viz-root {
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    background: var(--page); color: var(--ink-1); padding: 20px 16px 32px;
-  }
-  .wrap { max-width: 860px; margin: 0 auto; }
+  body.viz-root { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page); color: var(--ink-1); padding: 20px 16px 32px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
   header h1 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
-  header p  { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; }
-  .card {
-    background: var(--surface-1); border: 1px solid var(--ring); border-radius: 10px;
-    padding: 16px 18px; margin-top: 14px;
-  }
-  h2 { font-size: 13px; font-weight: 650; color: var(--ink-1); margin-bottom: 2px; }
+  header p { font-size: 12.5px; color: var(--ink-2); margin-top: 3px; }
+  .card { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 10px; padding: 16px 18px; margin-top: 14px; }
+  h2 { font-size: 13px; font-weight: 650; }
   .sub { font-size: 11.5px; color: var(--ink-3); margin-bottom: 12px; }
-  /* KPI */
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 14px; }
   .kpi { background: var(--surface-1); border: 1px solid var(--ring); border-radius: 10px; padding: 13px 15px; }
   .kpi .v { font-size: 26px; font-weight: 650; letter-spacing: -0.02em; }
   .kpi .l { font-size: 11.5px; color: var(--ink-2); margin-top: 2px; line-height: 1.35; }
   .kpi .d { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
   .good { color: var(--delta-good); font-weight: 600; }
-  /* Barras */
   .row { display: grid; grid-template-columns: 150px 1fr 58px; align-items: center; gap: 10px; padding: 4px 0; }
-  .row .name { font-size: 12.5px; color: var(--ink-1); text-align: right; }
-  .row .val  { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .row .name { font-size: 12.5px; text-align: right; }
+  .row .val { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .track { position: relative; height: 20px; }
   .track::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--baseline); }
-  .bar {
-    position: absolute; left: 2px; top: 1px; bottom: 1px;
-    border-radius: 0 4px 4px 0; min-width: 4px; cursor: default;
-    transition: filter .12s ease;
-  }
+  .bar { position: absolute; left: 2px; top: 1px; bottom: 1px; border-radius: 0 4px 4px 0; min-width: 4px; transition: filter .12s; }
   .bar:hover { filter: brightness(1.12); }
-  .chip { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: baseline; }
-  /* Tablas */
+  .chip { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
   table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   th { text-align: left; color: var(--ink-3); font-weight: 550; font-size: 11px; padding: 4px 8px 6px 0; border-bottom: 1px solid var(--grid); }
-  td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--grid); color: var(--ink-1); }
+  td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--grid); }
   td.n { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-2); }
   tr:last-child td { border-bottom: none; }
   .note { font-size: 11.5px; color: var(--ink-3); margin-top: 10px; line-height: 1.5; }
   footer { font-size: 11px; color: var(--ink-3); margin-top: 18px; line-height: 1.6; }
   a { color: var(--serie-1); text-decoration: none; }
-  /* Tooltip */
-  #tip {
-    position: fixed; pointer-events: none; z-index: 10; display: none;
-    background: var(--surface-1); color: var(--ink-1); border: 1px solid var(--ring);
-    border-radius: 7px; padding: 7px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.18);
-    max-width: 240px; line-height: 1.45;
-  }
-  #tip b { font-weight: 650; }
+  #tip { position: fixed; pointer-events: none; z-index: 10; display: none; background: var(--surface-1); border: 1px solid var(--ring); border-radius: 7px; padding: 7px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.18); max-width: 250px; line-height: 1.45; }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } .row { grid-template-columns: 118px 1fr 52px; } }
+  /* Índice por medio */
+  #buscador { width: 100%; padding: 8px 12px; font-size: 13px; color: var(--ink-1); background: var(--page); border: 1px solid var(--ring); border-radius: 8px; margin-bottom: 10px; }
+  #buscador:focus { outline: 2px solid var(--serie-1); outline-offset: 1px; }
+  details.banda { border-top: 1px solid var(--grid); }
+  details.banda:last-of-type { border-bottom: 1px solid var(--grid); }
+  details.banda summary { display: flex; align-items: baseline; cursor: pointer; padding: 9px 2px; font-size: 12.5px; font-weight: 600; list-style: none; }
+  details.banda summary::before { content: "▸"; color: var(--ink-3); margin-right: 8px; font-size: 11px; }
+  details.banda[open] summary::before { content: "▾"; }
+  details.banda summary:hover { background: var(--wash); border-radius: 6px; }
+  .bcount { font-size: 11px; color: var(--ink-3); font-weight: 500; margin-left: auto; }
+  .mrow { display: grid; grid-template-columns: minmax(150px, 1.3fr) 90px 34px 1.2fr 110px; gap: 10px; align-items: center; padding: 5px 2px 5px 20px; font-size: 12.5px; border-top: 1px dashed var(--grid); }
+  .mname { line-height: 1.25; }
+  .mgrupo { display: block; font-size: 10.5px; color: var(--ink-3); }
+  .meter { height: 8px; background: var(--grid); border-radius: 4px; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--serie-1); border-radius: 4px 0 0 4px; }
+  .mnota { font-variant-numeric: tabular-nums; font-weight: 600; font-size: 12px; }
+  .mstats { display: flex; flex-wrap: wrap; gap: 4px; }
+  .st { font-size: 10.5px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--grid); color: var(--ink-2); white-space: nowrap; }
+  .st.sto { border-color: var(--v-falso); }
+  .st.std { border-color: var(--serie-1); }
+  .st.stc { border-color: var(--v-mcierto); }
+  .st.st0 { color: var(--ink-3); border-style: dashed; }
+  .mevo { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+  .delta { font-size: 11px; color: var(--ink-3); white-space: nowrap; }
+  .delta.up { color: var(--delta-good); font-weight: 600; }
+  .delta.down { color: var(--delta-bad); font-weight: 600; }
+  @media (max-width: 680px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 118px 1fr 52px; }
+    .mrow { grid-template-columns: minmax(120px, 1.4fr) 60px 30px 1fr; }
+    .mevo { display: none; }
+  }
 </style>
 </head>
 <body class="viz-root">
 <div class="wrap">
   <header>
     <h1>🔎 Panel LaClave</h1>
-    <p>Verificador personal de noticias · actualizado el 19-07-2026 · 32 verificaciones registradas (2 de uso real + 30 de calibración)</p>
+    <p>Verificador personal de noticias · actualizado el 20-07-2026 · 32 verificaciones registradas (2 de uso real + 30 de calibración)</p>
   </header>
 
   <div class="kpis">
     <div class="kpi"><div class="v">32</div><div class="l">verificaciones registradas</div><div class="d">2 reales · 30 de calibración</div></div>
     <div class="kpi"><div class="v">21</div><div class="l">bulos o engaños detectados</div><div class="d">66 % de lo verificado · nota media 2,4/10</div></div>
     <div class="kpi"><div class="v good">96,7 %</div><div class="l">acierto direccional en la calibración</div><div class="d">29/30 · 0 bulos aprobados · 0 falsos positivos</div></div>
-    <div class="kpi"><div class="v">57</div><div class="l">medios en el índice de credibilidad</div><div class="d">semilla v1.1 · próxima revisión: oct 2026</div></div>
+    <div class="kpi"><div class="v">60</div><div class="l">medios en el índice de credibilidad</div><div class="d">próxima revisión: octubre de 2026</div></div>
   </div>
 
   <div class="card">
     <h2>Veredictos emitidos</h2>
     <div class="sub">32 verificaciones · la escala va de Verdadero a Falso</div>
-    <div class="row"><div class="name"><span class="chip" style="background:var(--v-verdadero)"></span>Verdadero</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-verdadero)" data-tip="<b>Verdadero — 8 casos (25 %)</b><br>Nota media 9,7/10. Incluye los 5 controles «suena a bulo pero es cierto»."></div></div><div class="val">8 · 25 %</div></div>
-    <div class="row"><div class="name"><span class="chip" style="background:var(--v-mcierto)"></span>Mayormente cierto</div><div class="track"><div class="bar" style="width:23%;background:var(--v-mcierto)" data-tip="<b>Mayormente cierto — 3 casos (9 %)</b><br>Ciertos con un matiz o detalle erróneo (p. ej. los 82 escaños de CyL)."></div></div><div class="val">3 · 9 %</div></div>
-    <div class="row"><div class="name"><span class="chip" style="background:var(--v-enganoso)"></span>Engañoso</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-enganoso)" data-tip="<b>Engañoso — 8 casos (25 %)</b><br>Hechos reales con marco que induce a error: la categoría de las medias verdades."></div></div><div class="val">8 · 25 %</div></div>
-    <div class="row"><div class="name"><span class="chip" style="background:var(--v-falso)"></span>Falso</div><div class="track"><div class="bar" style="width:100%;background:var(--v-falso)" data-tip="<b>Falso — 13 casos (41 %)</b><br>Fabricaciones: vídeos de IA, fotos manipuladas, hechos inventados."></div></div><div class="val">13 · 41 %</div></div>
-    <div class="note">El color acompaña a la etiqueta, nunca la sustituye. Contenido problemático total (Falso + Engañoso): 21 casos, nota media 2,4/10 · contenido verídico: 11 casos, nota media 9,2/10.</div>
+    <div class="row"><div class="name"><span class="chip" style="background:var(--v-verdadero)"></span>Verdadero</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-verdadero)" data-tip="<b>Verdadero — 8 casos (25 %)</b><br>Confirmado por fuentes fiables."></div></div><div class="val">8 · 25 %</div></div>
+<div class="row"><div class="name"><span class="chip" style="background:var(--v-mcierto)"></span>Mayormente cierto</div><div class="track"><div class="bar" style="width:23.1%;background:var(--v-mcierto)" data-tip="<b>Mayormente cierto — 3 casos (9 %)</b><br>Cierto con algún matiz o detalle erróneo."></div></div><div class="val">3 · 9 %</div></div>
+<div class="row"><div class="name"><span class="chip" style="background:var(--v-enganoso)"></span>Engañoso</div><div class="track"><div class="bar" style="width:61.5%;background:var(--v-enganoso)" data-tip="<b>Engañoso — 8 casos (25 %)</b><br>Hechos reales con marco que induce a error."></div></div><div class="val">8 · 25 %</div></div>
+<div class="row"><div class="name"><span class="chip" style="background:var(--v-falso)"></span>Falso</div><div class="track"><div class="bar" style="width:100.0%;background:var(--v-falso)" data-tip="<b>Falso — 13 casos (41 %)</b><br>Fabricaciones: contenido inventado o manipulado."></div></div><div class="val">13 · 41 %</div></div>
+    <div class="note">El color acompaña a la etiqueta, nunca la sustituye. Contenido problemático (Falso + Engañoso + Mezcla): 21 casos, nota media 2,4/10 · contenido verídico: 11 casos, nota media 9,2/10.</div>
   </div>
 
   <div class="card">
     <h2>Quién desmintió los casos problemáticos</h2>
     <div class="sub">Fuentes que desmontaron los 21 casos falsos o engañosos (un caso puede tener varias)</div>
-    <div class="row"><div class="name">Maldita.es</div><div class="track"><div class="bar" style="width:100%;background:var(--serie-1)" data-tip="<b>Maldita.es — 14 desmentidos</b><br>Nota en el catálogo: 9. El desmentidor más frecuente."></div></div><div class="val">14</div></div>
-    <div class="row"><div class="name">Newtral</div><div class="track"><div class="bar" style="width:86%;background:var(--serie-1)" data-tip="<b>Newtral — 12 desmentidos</b><br>Nota en el catálogo: 8,5."></div></div><div class="val">12</div></div>
-    <div class="row"><div class="name">Factcheck.bg</div><div class="track"><div class="bar" style="width:14%;background:var(--serie-1)" data-tip="<b>Factcheck.bg — 2 desmentidos</b><br>El verificador búlgaro (EFCSN). Nota: 8,5."></div></div><div class="val">2</div></div>
-    <div class="row"><div class="name">Verificat</div><div class="track"><div class="bar" style="width:14%;background:var(--serie-1)" data-tip="<b>Verificat — 2 desmentidos</b><br>Nota en el catálogo: 8,5."></div></div><div class="val">2</div></div>
-    <div class="row"><div class="name">Full Fact</div><div class="track"><div class="bar" style="width:7%;background:var(--serie-1)" data-tip="<b>Full Fact — 1 desmentido</b><br>Verificador británico. Nota: 9."></div></div><div class="val">1</div></div>
-    <div class="row"><div class="name">EUvsDisinfo</div><div class="track"><div class="bar" style="width:7%;background:var(--serie-1)" data-tip="<b>EUvsDisinfo — 1 desmentido</b><br>Base de la UE sobre desinformación pro-Kremlin."></div></div><div class="val">1</div></div>
-    <div class="note">También con 1: Info Veritas, elDiario.es, Euronews y la AEAT (fuente primaria). La regla «fact-check first» encontró dictamen profesional en 19 de los 20 casos problemáticos de la calibración.</div>
+    <div class="row"><div class="name">Maldita.es</div><div class="track"><div class="bar" style="width:100.0%;background:var(--serie-1)" data-tip="&lt;b&gt;Maldita.es — 14 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: 9."></div></div><div class="val">14</div></div>
+<div class="row"><div class="name">Newtral</div><div class="track"><div class="bar" style="width:85.7%;background:var(--serie-1)" data-tip="&lt;b&gt;Newtral — 12 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: 8,5."></div></div><div class="val">12</div></div>
+<div class="row"><div class="name">Verificat</div><div class="track"><div class="bar" style="width:14.3%;background:var(--serie-1)" data-tip="&lt;b&gt;Verificat — 2 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: 8,5."></div></div><div class="val">2</div></div>
+<div class="row"><div class="name">Factcheck.bg</div><div class="track"><div class="bar" style="width:14.3%;background:var(--serie-1)" data-tip="&lt;b&gt;Factcheck.bg — 2 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: 8,5."></div></div><div class="val">2</div></div>
+<div class="row"><div class="name">AEAT</div><div class="track"><div class="bar" style="width:7.1%;background:var(--serie-1)" data-tip="&lt;b&gt;AEAT — 1 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: fuera de catálogo."></div></div><div class="val">1</div></div>
+<div class="row"><div class="name">elDiario.es</div><div class="track"><div class="bar" style="width:7.1%;background:var(--serie-1)" data-tip="&lt;b&gt;elDiario.es — 1 desmentidos&lt;/b&gt;&lt;br&gt;Nota en el catálogo: 7,5."></div></div><div class="val">1</div></div>
+    <div class="note"> También con 1: Info Veritas (1), Euronews (1), EUvsDisinfo (1), Full Fact (1). La regla «fact-check first» encontró dictamen profesional en 19 de los 20 casos problemáticos de la calibración.</div>
   </div>
 
-  <div class="grid2">
-    <div class="card">
-      <h2>De dónde salió lo falso o engañoso</h2>
-      <div class="sub">Origen de los 21 casos problemáticos</div>
-      <table>
-        <tr><th>Origen</th><th style="text-align:right">Casos</th></tr>
-        <tr><td>Cadenas y cuentas anónimas en redes</td><td class="n">11</td></tr>
-        <tr><td>Declaraciones políticas y oficiales</td><td class="n">4</td></tr>
-        <tr><td>Redes de desinformación organizadas</td><td class="n">4</td></tr>
-        <tr><td>Medios de comunicación</td><td class="n">2</td></tr>
-      </table>
-      <div class="note">Los dos casos con medio identificado: The Objective (informe #001) y Vozpópuli (informe #002), ambos incorporados al catálogo con nota 6.</div>
-    </div>
-    <div class="card">
-      <h2>Índice de credibilidad</h2>
-      <div class="sub">57 medios · semilla del 19-07-2026 (v1.1)</div>
-      <table>
-        <tr><th>Grupo</th><th style="text-align:right">Medios</th></tr>
-        <tr><td>Verificadores</td><td class="n">11</td></tr>
-        <tr><td>Agencias</td><td class="n">7</td></tr>
-        <tr><td>España</td><td class="n">16</td></tr>
-        <tr><td>Europa y mundo</td><td class="n">12</td></tr>
-        <tr><td>Bulgaria</td><td class="n">14</td></tr>
-      </table>
-      <div class="note">La evolución de la nota de cada medio se dibujará a partir de la primera revisión trimestral (octubre de 2026), usando <code>registro/notas_historico.csv</code>.</div>
-    </div>
+  <div class="card">
+    <h2>Índice de credibilidad, medio a medio</h2>
+    <div class="sub">60 medios agrupados por rango de veracidad · con su papel en el registro y la evolución de su nota · toca cada rango para desplegarlo</div>
+    <input id="buscador" type="search" placeholder="Buscar un medio… (p. ej. RTVE, Dnevnik, Vozpópuli)" aria-label="Buscar un medio">
+    <details class="banda"><summary><span>9 – 10 · Máxima exigencia verificadora</span><span class="bcount">12 medios</span></summary>
+<div class="mrow" data-nombre="afp"><div class="mname">AFP<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>AFP</b><br>Nota de credibilidad: 9,5/10."><i style="width:95%"></i></div><div class="mnota">9,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="ap"><div class="mname">AP<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>AP</b><br>Nota de credibilidad: 9,5/10."><i style="width:95%"></i></div><div class="mnota">9,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="reuters"><div class="mname">Reuters<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>Reuters</b><br>Nota de credibilidad: 9,5/10."><i style="width:95%"></i></div><div class="mnota">9,5</div><div class="mstats"><span class="st stc" data-tip="<b>Reuters</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="afp factual"><div class="mname">AFP Factual<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>AFP Factual</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="afp proveri"><div class="mname">AFP Proveri<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>AFP Proveri</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="bbc news / bbc mundo"><div class="mname">BBC News / BBC Mundo<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>BBC News / BBC Mundo</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="efe verifica"><div class="mname">EFE Verifica<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>EFE Verifica</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="financial times"><div class="mname">Financial Times<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Financial Times</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="full fact"><div class="mname">Full Fact<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Full Fact</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st std" data-tip="<b>Full Fact</b><br>Desmintió 1 caso(s) del registro.">desmiente 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="maldita.es"><div class="mname">Maldita.es<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Maldita.es</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st std" data-tip="<b>Maldita.es</b><br>Desmintió 14 caso(s) del registro.">desmiente 14</span> <span class="st stc" data-tip="<b>Maldita.es</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="reuters fact check"><div class="mname">Reuters Fact Check<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Reuters Fact Check</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="dpa"><div class="mname">dpa<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>dpa</b><br>Nota de credibilidad: 9/10."><i style="width:90%"></i></div><div class="mnota">9</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+</details>
+<details class="banda"><summary><span>8 – 8.9 · Referencia sólida</span><span class="bcount">18 medios</span></summary>
+<div class="mrow" data-nombre="dw"><div class="mname">DW<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>DW</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="efe"><div class="mname">EFE<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>EFE</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="factcheck.bg"><div class="mname">Factcheck.bg<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Factcheck.bg</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st std" data-tip="<b>Factcheck.bg</b><br>Desmintió 2 caso(s) del registro.">desmiente 2</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="le monde"><div class="mname">Le Monde<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Le Monde</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="new york times"><div class="mname">New York Times<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>New York Times</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="newtral"><div class="mname">Newtral<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Newtral</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st std" data-tip="<b>Newtral</b><br>Desmintió 12 caso(s) del registro.">desmiente 12</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="politifact"><div class="mname">PolitiFact<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>PolitiFact</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="verificat"><div class="mname">Verificat<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Verificat</b><br>Nota de credibilidad: 8,5/10."><i style="width:85%"></i></div><div class="mnota">8,5</div><div class="mstats"><span class="st std" data-tip="<b>Verificat</b><br>Desmintió 2 caso(s) del registro.">desmiente 2</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="capital"><div class="mname">Capital<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Capital</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="der spiegel int."><div class="mname">Der Spiegel Int.<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Der Spiegel Int.</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="dnevnik"><div class="mname">Dnevnik<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Dnevnik</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="el país"><div class="mname">El País<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>El País</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st stc" data-tip="<b>El País</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="europa press"><div class="mname">Europa Press<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>Europa Press</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st stc" data-tip="<b>Europa Press</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="france 24"><div class="mname">France 24<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>France 24</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st stc" data-tip="<b>France 24</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="politico europe"><div class="mname">Politico Europe<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Politico Europe</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="rtve"><div class="mname">RTVE<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>RTVE</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="snopes"><div class="mname">Snopes<span class="mgrupo">verificadores</span></div><div class="meter" data-tip="<b>Snopes</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="the guardian"><div class="mname">The Guardian<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>The Guardian</b><br>Nota de credibilidad: 8/10."><i style="width:80%"></i></div><div class="mnota">8</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+</details>
+<details class="banda"><summary><span>7 – 7.9 · Fiable con sesgo o limitaciones</span><span class="bcount">19 medios</span></summary>
+<div class="mrow" data-nombre="bnr / radio bulgaria"><div class="mname">BNR / Radio Bulgaria<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>BNR / Radio Bulgaria</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st stc" data-tip="<b>BNR / Radio Bulgaria</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="el confidencial"><div class="mname">El Confidencial<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>El Confidencial</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="el mundo"><div class="mname">El Mundo<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>El Mundo</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="euronews"><div class="mname">Euronews<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Euronews</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st std" data-tip="<b>Euronews</b><br>Desmintió 1 caso(s) del registro.">desmiente 1</span> <span class="st stc" data-tip="<b>Euronews</b><br>Sostuvo hechos ciertos en 2 caso(s).">confirma 2</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="la vanguardia"><div class="mname">La Vanguardia<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>La Vanguardia</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="le figaro"><div class="mname">Le Figaro<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>Le Figaro</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="mediapool"><div class="mname">Mediapool<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Mediapool</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="the sofia globe"><div class="mname">The Sofia Globe<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>The Sofia Globe</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st stc" data-tip="<b>The Sofia Globe</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="eldiario.es"><div class="mname">elDiario.es<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>elDiario.es</b><br>Nota de credibilidad: 7,5/10."><i style="width:75%"></i></div><div class="mnota">7,5</div><div class="mstats"><span class="st std" data-tip="<b>elDiario.es</b><br>Desmintió 1 caso(s) del registro.">desmiente 1</span> <span class="st stc" data-tip="<b>elDiario.es</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="20minutos"><div class="mname">20minutos<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>20minutos</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="abc"><div class="mname">ABC<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>ABC</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="antena 3 noticias"><div class="mname">Antena 3 Noticias<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>Antena 3 Noticias</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="bta"><div class="mname">BTA<span class="mgrupo">agencias</span></div><div class="meter" data-tip="<b>BTA</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st stc" data-tip="<b>BTA</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="club z"><div class="mname">Club Z<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Club Z</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st stc" data-tip="<b>Club Z</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="el periódico"><div class="mname">El Periódico<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>El Periódico</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="offnews"><div class="mname">OFFNews<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>OFFNews</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="rai"><div class="mname">RAI<span class="mgrupo">Europa-mundo</span></div><div class="meter" data-tip="<b>RAI</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="sega"><div class="mname">Sega<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Sega</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="btv news"><div class="mname">bTV News<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>bTV News</b><br>Nota de credibilidad: 7/10."><i style="width:70%"></i></div><div class="mnota">7</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+</details>
+<details class="banda"><summary><span>5.5 – 6.9 · Usable con cautela</span><span class="bcount">9 medios</span></summary>
+<div class="mrow" data-nombre="bnt"><div class="mname">BNT<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>BNT</b><br>Nota de credibilidad: 6,5/10."><i style="width:65%"></i></div><div class="mnota">6,5</div><div class="mstats"><span class="st stc" data-tip="<b>BNT</b><br>Sostuvo hechos ciertos en 1 caso(s).">confirma 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="la razón"><div class="mname">La Razón<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>La Razón</b><br>Nota de credibilidad: 6,5/10."><i style="width:65%"></i></div><div class="mnota">6,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="nova news"><div class="mname">Nova News<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Nova News</b><br>Nota de credibilidad: 6,5/10."><i style="width:65%"></i></div><div class="mnota">6,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="novinite"><div class="mname">Novinite<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Novinite</b><br>Nota de credibilidad: 6,5/10."><i style="width:65%"></i></div><div class="mnota">6,5</div><div class="mstats"><span class="st stc" data-tip="<b>Novinite</b><br>Sostuvo hechos ciertos en 2 caso(s).">confirma 2</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="lasexta"><div class="mname">laSexta<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>laSexta</b><br>Nota de credibilidad: 6,5/10."><i style="width:65%"></i></div><div class="mnota">6,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="the objective"><div class="mname">The Objective<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>The Objective</b><br>Nota de credibilidad: 6/10."><i style="width:60%"></i></div><div class="mnota">6</div><div class="mstats"><span class="st sto" data-tip="<b>The Objective</b><br>Origen o publicador de contenido falso/engañoso en 1 caso(s) del registro.">origen 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="vozpópuli"><div class="mname">Vozpópuli<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>Vozpópuli</b><br>Nota de credibilidad: 6/10."><i style="width:60%"></i></div><div class="mnota">6</div><div class="mstats"><span class="st sto" data-tip="<b>Vozpópuli</b><br>Origen o publicador de contenido falso/engañoso en 1 caso(s) del registro.">origen 1</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="24 chasa"><div class="mname">24 Chasa<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>24 Chasa</b><br>Nota de credibilidad: 5,5/10."><i style="width:55%"></i></div><div class="mnota">5,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="libertad digital"><div class="mname">Libertad Digital<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>Libertad Digital</b><br>Nota de credibilidad: 5,5/10."><i style="width:55%"></i></div><div class="mnota">5,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+</details>
+<details class="banda"><summary><span>4 – 5.4 · Baja fiabilidad</span><span class="bcount">2 medios</span></summary>
+<div class="mrow" data-nombre="okdiario"><div class="mname">OKDiario<span class="mgrupo">España</span></div><div class="meter" data-tip="<b>OKDiario</b><br>Nota de credibilidad: 4,5/10."><i style="width:45%"></i></div><div class="mnota">4,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+<div class="mrow" data-nombre="trud"><div class="mname">Trud<span class="mgrupo">Bulgaria</span></div><div class="meter" data-tip="<b>Trud</b><br>Nota de credibilidad: 4,5/10."><i style="width:45%"></i></div><div class="mnota">4,5</div><div class="mstats"><span class="st st0">sin apariciones aún</span></div><div class="mevo"><span class="delta" data-tip="Semilla del 2026-07-19; la serie se dibujará con las revisiones del índice (1.ª: octubre de 2026).">— semilla</span></div></div>
+</details>
+    <div class="note">Las notas son hipótesis de trabajo sembradas con criterios citables (EFCSN/IFCN, confianza DNR 2026, MBFC, propiedad); las revisiones trimestrales —con evidencia del registro y aprobación de Jordi— las irán confirmando o corrigiendo, y aquí se dibujará la serie de cada medio (▲ sube, ▼ baja). Etiquetas por medio: <b>origen</b> = publicó u originó contenido falso/engañoso · <b>desmiente</b> = lo desmontó · <b>confirma</b> = sostuvo hechos ciertos.</div>
+  </div>
+
+  <div class="card">
+    <h2>De dónde salió lo falso o engañoso</h2>
+    <div class="sub">Origen de los 21 casos problemáticos</div>
+    <table>
+      <tr><th>Origen</th><th style="text-align:right">Casos</th></tr>
+      <tr><td>Cadenas y cuentas anónimas en redes</td><td class="n">11</td></tr>
+<tr><td>Redes de desinformación organizadas</td><td class="n">4</td></tr>
+<tr><td>Declaraciones políticas y oficiales</td><td class="n">4</td></tr>
+<tr><td>Medios de comunicación</td><td class="n">2</td></tr>
+    </table>
+    <div class="note">Los casos con medio identificado se reflejan también en la etiqueta «origen» de la sección por medio.</div>
   </div>
 
   <footer>
-    Datos: <code>registro/registro.csv</code> · generado con <code>scripts/analiticas.py</code> · detalle en <code>ANALITICAS.md</code> ·
-    repositorio: <a href="https://github.com/Jomenew16/LaClave">github.com/Jomenew16/LaClave</a>. Este panel se actualiza cada vez que se archivan verificaciones nuevas.
+    Datos: <code>registro/registro.csv</code> y <code>registro/notas_historico.csv</code> · generado con <code>scripts/panel.py</code> · detalle en <code>ANALITICAS.md</code> ·
+    repositorio: <a href="https://github.com/Jomenew16/LaClave">github.com/Jomenew16/LaClave</a>. Este panel se actualiza cada vez que se archivan verificaciones o se revisa el índice.
   </footer>
 </div>
 <div id="tip"></div>
 <script>
   (function () {
     var tip = document.getElementById("tip");
-    document.querySelectorAll(".bar[data-tip]").forEach(function (b) {
-      b.addEventListener("mousemove", function (e) {
+    document.querySelectorAll("[data-tip]").forEach(function (b) {
+      b.addEventListener("mousemove", function (ev) {
         tip.innerHTML = b.getAttribute("data-tip");
         tip.style.display = "block";
-        var x = Math.min(e.clientX + 14, window.innerWidth - tip.offsetWidth - 10);
-        var y = Math.min(e.clientY + 14, window.innerHeight - tip.offsetHeight - 10);
+        var x = Math.min(ev.clientX + 14, window.innerWidth - tip.offsetWidth - 10);
+        var y = Math.min(ev.clientY + 14, window.innerHeight - tip.offsetHeight - 10);
         tip.style.left = x + "px"; tip.style.top = y + "px";
       });
       b.addEventListener("mouseleave", function () { tip.style.display = "none"; });
+    });
+    var q = document.getElementById("buscador");
+    q.addEventListener("input", function () {
+      var t = q.value.trim().toLowerCase();
+      document.querySelectorAll("details.banda").forEach(function (d) {
+        var visibles = 0;
+        d.querySelectorAll(".mrow").forEach(function (r) {
+          var ok = !t || r.getAttribute("data-nombre").indexOf(t) !== -1;
+          r.style.display = ok ? "" : "none";
+          if (ok) visibles++;
+        });
+        if (t) { d.open = visibles > 0; d.style.display = visibles ? "" : "none"; }
+        else { d.style.display = ""; d.open = false; }
+      });
     });
   })();
 </script>
